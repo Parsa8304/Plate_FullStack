@@ -2,9 +2,10 @@ from ultralytics import YOLO  # type: ignore
 from hezar.models import Model
 import cv2
 import numpy as np
+import re
 
 # Initialize YOLO and OCR models once
-lp_detector = YOLO(r'C:\Users\saraye tel\Desktop\Plate_detector\plate_detector_project\lp_detector.pt')
+lp_detector = YOLO(r'C:\Users\saraye tel\Desktop\Plate_detector\Plate_Backend\Plate_Detector\lp_detector.pt')
 lp_ocr = Model.load("hezarai/crnn-fa-64x256-license-plate-recognition")
 
 def process_image(django_image_file):
@@ -24,9 +25,27 @@ def process_image(django_image_file):
             plate_text = lp_ocr.predict(plate_cropped)
             if isinstance(plate_text, list):
                 plate_text = ''.join([output.text for output in plate_text])
+            print(f"OCR Detected plate text: {plate_text}")
+
+            # Try all common Iranian plate formats
+            patterns = [
+                r'(\d{2})\s*([آ-ی])\s*(\d{3})\s*ایران\s*(\d{2})',   # With "ایران"
+                r'(\d{2})\s*([آ-ی])\s*(\d{3})\s*-\s*(\d{2})',        # With dash
+                r'(\d{2})\s*([آ-ی])\s*(\d{3})(\d{2})',               # All together
+            ]
+            for pattern in patterns:
+                match = re.search(pattern, plate_text)
+                if match:
+                    part1, persian_char, part2, city_code = match.groups()
+                    formatted_plate = f"{part1} {persian_char} {part2} - {city_code}"
+                    print(f"Formatted plate: {formatted_plate}")
+                    return formatted_plate
+
+            print(f"Returned raw OCR: {plate_text}")
             return plate_text
         except Exception as e:
             print(f"Error processing image: {e}")
             return None
     else:
         return None
+    

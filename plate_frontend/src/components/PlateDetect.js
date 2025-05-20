@@ -12,7 +12,7 @@ export default function PlateDetect({ token }) {
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const res = await axios.post('http://127.0.0.1:8000/detect/', formData, {
+      const res = await axios.post('http://127.0.0.1:8000/detect', formData, {
         headers: {
           'Authorization': `Token ${token}`,
           'Content-Type': 'multipart/form-data'

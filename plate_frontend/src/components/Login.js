@@ -10,7 +10,7 @@ export default function Login({ setToken }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://127.0.0.1:8000/login', { username, password });
+      const res = await axios.post('http://127.0.0.1:8000/api-token-auth', { username, password });
       setToken(res.data.token);
       setMsg('✅ Logged in!');
     } catch (err) {
