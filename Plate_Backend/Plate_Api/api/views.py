@@ -5,7 +5,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from .serializers import PlateSerializer
+from .serializers import PlateSerializer, RegisterSerializer
 from Plate_Api.models import Plate
 from .image_proccessing import process_image
 
@@ -13,6 +13,8 @@ from .image_proccessing import process_image
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
+    serializer_class = RegisterSerializer
+    
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -24,7 +26,8 @@ class RegisterView(APIView):
         token = Token.objects.create(user=user)
         return Response({"token": token.key}, status=status.HTTP_201_CREATED)
 
-
+    def get(self, request):
+        return Response({"detail": "Send a POST request to register."}, status=status.HTTP_200_OK)
 # class LoginView(APIView):
 #     permission_classes = [IsAuthenticated]
 #     def post(self, request):
