@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'drf_redesign',
     # 'rest_wind',
-    'drf_material',
+    # 'drf_material',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',

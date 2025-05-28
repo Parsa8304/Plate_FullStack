@@ -10,7 +10,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://127.0.0.1:8000/register', { username, password });
+      const res = await axios.post('http://127.0.0.1:8000/register/', { username, password });
       setMsg('✅ Registered! Token: ' + res.data.token);
     } catch (err) {
       setMsg('❌ Error: ' + (err.response?.data?.error || 'Unknown error'));

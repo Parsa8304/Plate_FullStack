@@ -5,7 +5,7 @@ import numpy as np
 import re
 
 # Initialize YOLO and OCR models once
-lp_detector = YOLO(r'C:\Users\saraye tel\Desktop\Plate_detector\Plate_Backend\Plate_Detector\lp_detector.pt')
+lp_detector = YOLO(r'C:\Users\ihc\Desktop\Plate_FullStack\Plate_FullStack\Plate_Backend\Plate_Detector\lp_detector.pt')
 lp_ocr = Model.load("hezarai/crnn-fa-64x256-license-plate-recognition")
 
 def process_image(django_image_file):
